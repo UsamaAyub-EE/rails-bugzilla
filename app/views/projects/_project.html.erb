@@ -1,0 +1,9 @@
+<p>Project Name <%= @project.name %></p> <br>
+<% if current_user.developer? || current_user.qa? %>
+  <p>Owned by <%= @project.manager.name %></p> <br>
+  <%= link_to "View the bugs in this project", project_bugs_path(@project) if policy(@project).show? %>
+<% end %>
+<% if current_user.manager? %>
+  <%= link_to "Edit this project", edit_project_path(@project) if policy(@project).update? %>
+  <%= button_to "Delete this project",project_path(@project), method: :delete if policy(@project).destroy?, data: { turbolinks: false } %>
+<% end %>

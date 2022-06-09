@@ -1,0 +1,8 @@
+<h1>Welcome to Bugzilla</h1>
+<% if user_signed_in? %>
+  <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+  <%= link_to "Go to dashboard", users_authenticated_root_path %>
+<% else %>
+  <%= link_to "Sign in", new_user_session_path %>
+  <%= link_to 'Sign up', new_user_registration_path %>
+<% end %>

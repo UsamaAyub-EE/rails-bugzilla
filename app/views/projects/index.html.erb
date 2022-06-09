@@ -1,0 +1,30 @@
+<% if @projects.nil? %>
+  <%= render "not_assigned" %>
+<% else %>
+  <div>
+    <% @projects.each do |project| %>
+      <p>Project Name <%= project.name %></p> <br>
+      <% if current_user.developer? || current_user.qa? %>
+        <p>Owned by <%= project.manager.name %></p> <br>
+        <%= link_to "View the bugs in this project", user_project_bugs_path(current_user,project_id: project.id) %>
+      <% end %>
+      <br>
+      <% if current_user.qa? %>
+        <%= link_to "Add a new bug to this project!", new_user_project_bug_path(current_user,project_id: project.id) %>
+      <% end %>
+      <br>
+      <% if current_user.manager? %>
+        <%= link_to "Edit this project", edit_user_project_path(current_user.id, project) %>
+        <%= link_to "View project", user_project_path(current_user.id, project) if policy(project).show? %>
+        <%= button_to "Delete this project",user_project_path(current_user.id, project), method: :delete if policy(project).destroy? %>
+      <% end %>
+    <% end %>
+  </div>
+  <% if current_user %>
+      <%= link_to "Back to dashboard", users_authenticated_root_path %>
+  <% end %>
+
+<% end %>
+<% if current_user.manager? %>
+  <%= link_to "Add a new project", new_user_project_path(current_user) %>
+<% end %>

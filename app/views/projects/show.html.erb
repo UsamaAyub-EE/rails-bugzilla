@@ -1,0 +1,27 @@
+<p>Project Name <%= @project.name %></p> <br>
+<p>Owned by: <%= @project.manager.name %></p>
+<% if current_user.manager? %>
+  <table style="width:100%">
+    <tr>
+      <th>Developer ID</th>
+      <th>Developer Name</th>
+      <th>Action</th>
+    </tr>
+    <% @developers.each do |developer| %>
+      <% if developer.projects.where(id: @project.id).exists? %>
+        <tr>
+          <td><%= developer.id %></td>
+          <td><%= developer.name %></td>
+          <td><%= button_to "Remove", remove_developer_project_path(developer_id: developer.id), method: :delete, data: { turbolinks: false } %></td>
+        </tr>
+      <% else %>
+        <tr>
+          <td><%= developer.id %></td>
+          <td><%= developer.name %></td>
+          <td><%= button_to "Add", add_developer_project_path(developer_id: developer.id), method: :post, data: { turbolinks: false } %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+<% end %>
+<%= link_to "Back to projects", projects_path %>

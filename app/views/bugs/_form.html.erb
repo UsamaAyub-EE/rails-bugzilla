@@ -1,0 +1,45 @@
+<%= form_for [@user , @project, @bug] do |form| %>
+  <% if @bug.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(bug.errors.count, "error") %> prohibited this bug from being saved:</h2>
+
+      <ul>
+        <% @bug.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :description, style: "display: block" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.file_field :screenshot, style: "display: block" %>
+  </div>
+
+  <div>
+    <%= form.label :deadline, style: "display: block" %>
+    <%= form.datetime_select :deadline %>
+  </div>
+
+  <div>
+    <%= form.label :kind, style: "display: block" %>
+    <%= form.select :kind, ['Feature', 'Bug'] %>
+  <div>
+
+  <div>
+    <%= form.label :stature, style: "display: block" %>
+    <%= form.select :stature, ['New', 'Started', 'Completed'] %>
+  <div>
+
+    <%= form.submit %>
+  </div>
+<% end %>
