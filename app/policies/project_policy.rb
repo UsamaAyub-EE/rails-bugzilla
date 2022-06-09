@@ -18,7 +18,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def show?
-    @user.manager? || @user.developer? || @user.qa?
+    if @user.manager? || @user.developer?
+      @user.projects.include?(@record)
+    elsif @user.qa?
+      true
+    end
   end
 
   def create?
@@ -26,11 +30,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    @user.manager?
+    show?
   end
 
   def destroy?
-    @user.manager?
+    show?
   end
 
   def new?
@@ -38,26 +42,26 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def edit?
-    @user.manager?
+    show?
   end
 
   def add_developer?
-    @user.manager?
+    show?
   end
 
   def remove_developer?
-    @user.manager?
+    show?
   end
 
   def mark_as_resolved?
-    @user.developer?
+    show?
   end
 
   def pick_developer?
-    @user.developer?
+    show?
   end
 
   def drop_developer?
-    @user.developer?
+    show?
   end
 end

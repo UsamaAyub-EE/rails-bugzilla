@@ -1,0 +1,19 @@
+---
+development:
+  cloud_name: railstestprojectfordevsinctrainingforjune
+  api_key: '948425939939693'
+  api_secret: wwOYIB6cDcKbVC6psNHJuE1e-vI
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: railstestprojectfordevsinctrainingforjune
+  api_key: '948425939939693'
+  api_secret: wwOYIB6cDcKbVC6psNHJuE1e-vI
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: railstestprojectfordevsinctrainingforjune
+  api_key: '948425939939693'
+  api_secret: wwOYIB6cDcKbVC6psNHJuE1e-vI
+  enhance_image_tag: true
+  static_file_support: false
