@@ -48,4 +48,16 @@ class ProjectPolicy < ApplicationPolicy
   def remove_developer?
     @user.manager?
   end
+
+  def mark_as_resolved?
+    @user.developer?
+  end
+
+  def pick_developer?
+    @user.developer?
+  end
+
+  def drop_developer?
+    @user.developer?
+  end
 end

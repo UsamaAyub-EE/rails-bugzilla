@@ -1,0 +1,8 @@
+<% if flash.any? %>
+  <% flash.each do |type, msg| %>
+    <%# <% binding.pry %>
+    <div class="alert alert-<%= type %>">
+    <%= msg %>
+    </div>
+  <% end %>
+<% end %>

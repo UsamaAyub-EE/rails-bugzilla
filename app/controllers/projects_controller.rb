@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
     @project = @user.projects.new(project_params)
     authorize @project
     if @project.save
-      redirect_to user_projects_path(current_user), notice: 'Project was successfully created.'
+      redirect_to user_projects_path(current_user), info: "Project was Created Successfully!"
     else
       render :new, project: @project, manager: @user
     end
@@ -32,7 +32,7 @@ class ProjectsController < ApplicationController
 
   def update
     if @project.update(project_params)
-      redirect_to user_projects_path(current_user), notice: 'Project was successfully updated.'
+      redirect_to user_projects_path(current_user), info: 'Project was successfully updated.'
     else
       render :edit, project: @project, manager: @user
     end
@@ -42,19 +42,19 @@ class ProjectsController < ApplicationController
     @developer = Developer.find(params[:developer_id])
     authorize @project
     @project.developers << @developer
-    redirect_to user_project_path(current_user, params[:id])
+    redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
   end
 
   def remove_developer
     @developer = Developer.find(params[:developer_id])
     authorize @project
     @project.developers.delete(@developer)
-    redirect_to user_project_path(current_user, params[:id])
+    redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
   end
 
   def destroy
     @project.destroy
-    redirect_to user_projects_path(current_user), notice: 'Project was successfully destroyed.'
+    redirect_to user_projects_path(current_user), info: 'Project was successfully destroyed.'
   end
 
   private
@@ -69,6 +69,7 @@ class ProjectsController < ApplicationController
 
   def set_project
     @project = Project.find(params[:id])
+    authorize @project
   end
 
   def set_developers

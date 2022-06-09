@@ -24,7 +24,7 @@ class BugsController < ApplicationController
     @bug.project_id = @project.id
     @bug.qa_id = @qa.id
     if @bug.save
-      redirect_to user_project_bugs_path(@qa, @project)
+      redirect_to user_project_bugs_path(@qa, @project), info: 'Bug was successfully created.'
     else
       render :new, bug: @bug, project: @project, qa: @qa
     end
@@ -36,25 +36,25 @@ class BugsController < ApplicationController
     @bug.developer = @developer
     @bug.stature = 'Started' unless @bug.stature == 'Completed' || @bug.stature == 'Resolved'
     @bug.save(validate: false)
-    redirect_to user_project_bugs_path(@developer, @project)
+    redirect_to user_project_bugs_path(@developer, @project), info: 'Bug was successfully picked up.'
   end
 
   def drop_developer
     @bug.developer = nil
     @bug.stature = 'New' if @bug.stature == 'Started'
     @bug.save(validate: false)
-    redirect_to user_project_bugs_path(@developer, @project)
+    redirect_to user_project_bugs_path(@developer, @project), info: 'Bug was successfully dropped.'
   end
 
   def mark_as_resolved
     @bug.stature = @bug.kind == 'Feature' ? 'Completed' : 'Resolved'
     @bug.save(validate: false)
-    redirect_to user_project_bugs_path(@developer, @project)
+    redirect_to user_project_bugs_path(@developer, @project), info: 'Bug was successfully marked as resolved.'
   end
 
   def update
     if @bug.update(bug_params)
-      redirect_to user_project_bugs_path(@qa, @project)
+      redirect_to user_project_bugs_path(@qa, @project), info: 'Bug was successfully updated.'
     else
       render :edit, bug: @bug, project: @project, user: @qa
     end
@@ -62,7 +62,7 @@ class BugsController < ApplicationController
 
   def destroy
     @bug.destroy
-    redirect_to user_project_bugs_path(@qa, @project)
+    redirect_to user_project_bugs_path(@qa, @project), info: 'Bug was successfully destroyed.'
   end
 
   def show; end
