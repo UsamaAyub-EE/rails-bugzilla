@@ -2,7 +2,7 @@
 <p>Bug Type <%= @bug.kind %></p> <br>
 <p>Bug Status <%= @bug.stature %></p> <br>
 <% if @bug.screenshot.attached? %>
-  <%= image_tag (@bug.screenshot) %>
+  <%= image_tag(@bug.screenshot) %>
 <% end %>
 <% if current_user.developer? %>
   <% if @bug.developer.nil? %>

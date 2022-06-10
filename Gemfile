@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
-gem 'cloudinary', require: false
+gem 'cloudinary', require: true
 gem 'activestorage-cloudinary-service'
 
 gem 'image_processing'

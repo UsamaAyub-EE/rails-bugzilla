@@ -30,11 +30,11 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def update?
-    show?
+    show? && @user.manager?
   end
 
   def destroy?
-    show?
+    update?
   end
 
   def new?
@@ -42,26 +42,26 @@ class ProjectPolicy < ApplicationPolicy
   end
 
   def edit?
-    show?
+    update?
   end
 
   def add_developer?
-    show?
+    update?
   end
 
   def remove_developer?
-    show?
+    update?
   end
 
   def mark_as_resolved?
-    show?
+    show? && @user.developer?
   end
 
   def pick_developer?
-    show?
+    mark_as_resolved?
   end
 
   def drop_developer?
-    show?
+    mark_as_resolved?
   end
 end

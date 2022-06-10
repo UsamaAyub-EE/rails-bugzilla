@@ -5,8 +5,14 @@ test:
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
+
 cloudinary:
   service: Cloudinary
+  cloud_name: railstestprojectfordevsinctrainingforjune
+  api_key: '948425939939693'
+  api_secret: wwOYIB6cDcKbVC6psNHJuE1e-vI
+  enhance_image_tag: true
+  static_file_support: true
 
 # Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
 # amazon:
