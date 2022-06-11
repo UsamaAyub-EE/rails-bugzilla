@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   rescue_from Pundit::NotAuthorizedError do
-    redirect_to root_url, alert: 'You do not have access to this page'
+    redirect_to root_url, warning: 'You do not have access to this page'
   end
 
   protected
