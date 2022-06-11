@@ -6,7 +6,8 @@ class Bug < ApplicationRecord
   belongs_to :project
   has_one_attached :screenshot
 
-  validates :title, :kind, :stature, presence: true
+  validates :title, presence: true, length: { maximum: 50 }
+  validates :kind, :stature, presence: true
   validate :unique_title_per_project, on: :create
 
   validate :acceptable_screenshot

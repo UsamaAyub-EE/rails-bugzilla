@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Project < ApplicationRecord
-  validates :name, presence: true
+  validates :name, presence: true, length: { maximum: 50 }
   validates :name, uniqueness: true
 
   belongs_to :manager
