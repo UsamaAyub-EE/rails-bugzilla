@@ -3,21 +3,22 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
   # Mailer settings
-  config.action_mailer.default_url_options = { host: 'sleepy-sands-90281.herokuapp.com', protocol: "https" }
+  config.action_mailer.default_url_options = { host: 'sleepy-sands-90281.herokuapp.com', protocol: 'https' }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address:              'smtp.gmail.com',
-    port:                 587,
-    domain:               'https://sleepy-sands-90281.herokuapp.com',
-    user_name:            Rails.application.credentials.dig(:google_smtp, :email),
-    password:             Rails.application.credentials.dig(:google_smtp, :password),
-    authentication:       'plain',
+    address: 'smtp.gmail.com',
+    port: 587,
+    domain: 'https://sleepy-sands-90281.herokuapp.com',
+    user_name: Rails.application.credentials.dig(:google_smtp, :email),
+    password: Rails.application.credentials.dig(:google_smtp, :password),
+    authentication: 'plain',
     enable_starttls_auto: true,
-    open_timeout:         5,
-    read_timeout:         5 }
+    open_timeout: 5,
+    read_timeout: 5
+  }
 
-    config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.raise_delivery_errors = true
   # Code is not reloaded between requests.
   config.cache_classes = true
 

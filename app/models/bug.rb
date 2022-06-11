@@ -14,20 +14,14 @@ class Bug < ApplicationRecord
   validate :future_deadline
 
   def future_deadline
-    if deadline && deadline < Time.now
-      errors.add(:deadline, 'must be in the future')
-    end
+    errors.add(:deadline, 'must be in the future') if deadline && deadline < Time.now
   end
 
   def acceptable_screenshot
     if screenshot.attached?
-      acceptable_types = ["image/gif", "image/png"]
-      unless acceptable_types.include?(screenshot.content_type)
-        errors.add(:screenshot, "must be a GIF or PNG")
-      end
-      unless screenshot.byte_size <= 5.megabyte
-        errors.add(:screenshot, "is too big")
-      end
+      acceptable_types = ['image/gif', 'image/png']
+      errors.add(:screenshot, 'must be a GIF or PNG') unless acceptable_types.include?(screenshot.content_type)
+      errors.add(:screenshot, 'is too big') unless screenshot.byte_size <= 5.megabyte
     end
   end
 

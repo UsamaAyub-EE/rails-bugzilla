@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
     @project = @user.projects.new(project_params)
     authorize @project
     if @project.save
-      redirect_to user_projects_path(current_user), info: "Project was Created Successfully!"
+      redirect_to user_projects_path(current_user), info: 'Project was Created Successfully!'
     else
       render :new, project: @project, manager: @user
     end
