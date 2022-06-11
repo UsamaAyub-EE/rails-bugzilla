@@ -2,25 +2,52 @@
   <%= render "no_bugs" %>
 <% else %>
   <% if current_user.developer? %>
-    <h1>Your Bugs</h1>
-    <% for bug in @bugs do %>
-      <% if !(bug.developer.nil?) && (bug.developer.id == current_user.id) %>
-        <p>Bug Title <%= bug.title %></p> <br>
-        <%= link_to "View the bug", user_project_bug_path(id: bug.id) %>
-      <% end %>
-    <% end %>
-    <h1>More unassigned bugs in the project</h1>
-    <% for bug in @bugs do %>
-      <% if bug.developer.nil? %>
-        <p>Bug Title <%= bug.title %></p> <br>
-        <%= link_to "View the bug", user_project_bug_path(id: bug.id) %>
-      <% end %>
-    <% end %>
+    <div class="services section-padding bg-grey">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 section-title text-center">
+            <h3>Your Bugs</h3>
+            <span class="section-title-line mt-20 mb-20"></span>
+          </div>
+            <% for bug in @bugs do %>
+              <% if !(bug.developer.nil?) && (bug.developer.id == current_user.id) %>
+                <%= render bug %>
+              <% end %>
+            <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="services section-padding bg-grey">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 section-title text-center">
+            <h3>Unassigned Bugs In This Project</h3>
+            <span class="section-title-line mt-20 mb-20"></span>
+          </div>
+          <% for bug in @bugs do %>
+            <% if bug.developer.nil? %>
+              <%= render bug %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   <% elsif current_user.qa? %>
-    <% for bug in @bugs do %>
-      <p>Bug Title <%= bug.title %></p> <br>
-      <%= link_to "View the bug", user_project_bug_path(id: bug.id) %>
-    <% end %>
+    <div class="services section-padding bg-grey">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 section-title text-center">
+            <h3>Bugs In This Project</h3>
+            <span class="section-title-line mt-20 mb-20"></span>
+          </div>
+          <% for bug in @bugs do %>
+            <%= render bug %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   <% end %>
 <% end %>
-<%= link_to 'Back to projects', user_projects_path %>
+<div class="text-center mb-30 mt-50">
+  <%= link_to 'Back to projects', user_projects_path, class: "btn btn-primary" %>
+</div>

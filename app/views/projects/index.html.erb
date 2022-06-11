@@ -1,30 +1,58 @@
+<div class="title-container">
+  <h1>Projects</h1>
+  <% if current_user.manager? %>
+    <a href="<%= new_user_project_path(current_user) %>" class="banner-btn">Create new project</a> </div>
+  <% end %>
+</div>
 <% if @projects.nil? %>
   <%= render "not_assigned" %>
 <% else %>
-  <div>
+  <div class="row">
     <% @projects.each do |project| %>
-      <p>Project Name <%= project.name %></p> <br>
       <% if current_user.developer? || current_user.qa? %>
-        <p>Owned by <%= project.manager.name %></p> <br>
-        <%= link_to "View the bugs in this project", user_project_bugs_path(current_user,project_id: project.id) %>
+        <div class="col-lg-5 col-md-5 col-sm-12 text-center">
+          <h3>Project Name:  <%= project.name %></h3>
+        </div>
+        <div class="col-lg-7 col-md-7 col-sm-12">
+          <% unless project.manager.nil? %>
+            <h4>Owned by:  <%= project.manager.name %></h4>
+          <% end %>
+        </div>
+        <br>
+        <br>
+        <% if current_user.developer? %>
+          <div class="col-lg-12 col-md-12 col-sm-12 text-center h4">
+            <%= link_to "View the bugs in this project", user_project_bugs_path(current_user,project_id: project.id), class: "btn btn-primary" %>
+          </div>
+        <% else %>
+          <div class="col-lg-3 col-md-3 col-sm-12 h4 mt-27">
+            <%= link_to "View the bugs in this project", user_project_bugs_path(current_user,project_id: project.id), class: "btn btn-primary" %>
+          </div>
+        <% end %>
       <% end %>
       <br>
       <% if current_user.qa? %>
-        <%= link_to "Add a new bug to this project!", new_user_project_bug_path(current_user,project_id: project.id) %>
+        <div class="col-lg-9 col-md-9 col-sm-12 h4">
+          <%= link_to "Add a new bug to this project!", new_user_project_bug_path(current_user,project_id: project.id), class: "btn btn-primary" %>
+        </div>
       <% end %>
       <br>
       <% if current_user.manager? %>
-        <%= link_to "Edit this project", edit_user_project_path(current_user.id, project) %>
-        <%= link_to "View project", user_project_path(current_user.id, project) if policy(project).show? %>
-        <%= button_to "Delete this project",user_project_path(current_user.id, project), method: :delete if policy(project).destroy? %>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+          <h3>Project Name:  <%= project.name %></h3> <br>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 text-center h4">
+          <%= link_to "Edit this project", edit_user_project_path(current_user.id, project), class: "btn btn-primary" %>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 text-center h4">
+          <%= link_to "View project", user_project_path(current_user.id, project), class: "btn btn-primary" %>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-12 text-center h4">
+          <%= button_to "Delete this project",user_project_path(current_user.id, project), method: :delete, class: "btn btn-primary" %>
+        </div>
       <% end %>
+      <hr style="height:6px;border-width:0;color:gray;background-color:gray">
     <% end %>
   </div>
-  <% if current_user %>
-      <%= link_to "Back to dashboard", users_authenticated_root_path %>
-  <% end %>
+<% end %>
 
-<% end %>
-<% if current_user.manager? %>
-  <%= link_to "Add a new project", new_user_project_path(current_user) %>
-<% end %>

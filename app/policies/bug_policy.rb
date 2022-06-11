@@ -12,7 +12,11 @@ class BugPolicy < ApplicationPolicy
   end
 
   def show?
-    user.developer? || user.qa?
+    if user.developer?
+      user.projects.pluck(:id).include?(record.project_id)
+    elsif user.qa?
+      true
+    end
   end
 
   def create?
@@ -36,14 +40,14 @@ class BugPolicy < ApplicationPolicy
   end
 
   def pick_developer?
-    user.developer?
+    show?
   end
 
   def drop_developer?
-    user.developer?
+    show?
   end
 
   def mark_as_resolved?
-    user.developer?
+    show?
   end
 end

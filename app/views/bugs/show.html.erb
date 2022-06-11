@@ -1,31 +1,56 @@
-<p>Bug Title <%= @bug.title %></p> <br>
-<p>Bug Type <%= @bug.kind %></p> <br>
-<p>Bug Status <%= @bug.stature %></p> <br>
+<h3 class="display-inline"><%= @bug.kind %> Title: </h3> <h3 class="bug display-inline"><%= @bug.title %></h3><br>
+<div class="mt-5">
+  <h4 class="display-inline"><%= @bug.kind %> status:</h4> <h4 class="bug display-inline"><%= @bug.stature %></h4>
+</div>
+<div class="mt-10">
+  <h4>Deadline: <%= @bug.deadline %></h4>
+</div>
+<div class="mt-5 mb-10">
+  <div>
+    <h4 class="display-inline"><%= @bug.kind %> description:</h4>
+  </div>
+  <div class="center mt-10 mb-10">
+    <h5><%= @bug.description %></h5>
+  </div>
+</div>
 <% if @bug.screenshot.attached? %>
-  <%= image_tag(@bug.screenshot) %>
+  <div class="mt-10">
+    <h4 class="display-inline">Screenshot:</h4>
+  </div>
+  <div class="img-fluid mx-auto">
+    <%= image_tag(@bug.screenshot) %>
+  </div>
 <% end %>
 <% if current_user.developer? %>
   <% if @bug.developer.nil? %>
-    <%= link_to "Pick up this bug", pick_developer_project_bug_path(current_user.id, id: @bug.id), method: :put, data: { turbolinks: false } %>
+    <%= link_to "Pick up this bug", pick_developer_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
   <% elsif @bug.developer.id == current_user.id %>
     <% if @bug.kind == 'Bug' %>
       <% if @bug.stature == 'Resolved' %>
         <p>This bug has been resolved</p> <br>
       <% else %>
-        <%= link_to "Mark this bug as resolved", mark_as_resolved_project_bug_path(current_user.id, id: @bug.id), method: :put, data: { turbolinks: false } %>
+        <%= link_to "Mark this bug as resolved", mark_as_resolved_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
       <% end %>
-      <%= link_to "Drop this bug", drop_developer_project_bug_path(current_user.id, id: @bug.id), method: :put, data: { turbolinks: false } %>
+      <%= link_to "Drop this bug", drop_developer_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
     <% else %>
       <% if @bug.stature == 'Completed' %>
         <p>This feature has been completed</p> <br>
       <% else %>
-        <%= link_to "Mark this feature as completed", mark_as_resolved_project_bug_path(current_user.id, id: @bug.id), method: :put, data: { turbolinks: false } %>
+        <%= link_to "Mark this feature as completed", mark_as_resolved_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
       <% end %>
-      <%= link_to "Drop this feature", drop_developer_project_bug_path(current_user.id, id: @bug.id), method: :put, data: { turbolinks: false } %>
+      <%= link_to "Drop this feature", drop_developer_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
     <% end %>
   <% end %>
-  <%= link_to "Back to bugs", user_project_bugs_path %>
 <% elsif current_user.qa? %>
-  <%= link_to "Edit this bug", edit_project_bug_path(current_user.id, id: @bug.id) %>
-  <%= button_to "Delete this bug", project_bug_path(current_user.id, id: @bug.id), method: :delete, data: { turbolinks: false } %>
+  <div class="row mt-20 mb-20">
+    <div class="col-lg-2">
+      <%= link_to "Edit this bug", edit_project_bug_path(project_id: @bug.project_id, id: @bug.id), class: "btn btn-primary" %>
+    </div>
+    <div class="col-lg-10">
+      <%= button_to "Delete this bug", project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :delete, data: { turbolinks: false }, class: "btn btn-primary" %>
+    </div>
+  </div>
 <% end %>
+<div class="text-center mt-20 mb-20">
+  <%= link_to "Back to bugs", user_project_bugs_path, class: "btn btn-primary" %>
+</div>

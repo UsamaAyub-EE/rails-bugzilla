@@ -1,4 +1,8 @@
-<h1>Users::Dashboard#index</h1>
-<p>Find me in app/views/users/dashboard/index.html.erb</p>
-<%= link_to "Go to projects", projects_path %>
-<%= link_to "Sign out", destroy_user_session_path, method: :delete %>
+<div class="banner text-center">
+  <div class="banner-overlay">
+    <div class="container">
+      <h1 class="text-capitalize">Welcome to <%= current_user.type %>'s dashboard </h1>
+      <br>
+      <a href="<%= projects_path %>" class="banner-btn">Go to projects</a> </div>
+  </div>
+</div>

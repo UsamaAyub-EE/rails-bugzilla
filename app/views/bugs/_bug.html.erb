@@ -1,0 +1,10 @@
+<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 mb-30 mt-30">
+  <div class="service-box bg-white text-center">
+    <div class="icon"> <i class="fas fa-bug "></i></div>
+    <div class="icon-text">
+      <h4 class="title-box"><%= bug.title %></h4>
+      <p><%= bug.description %></p>
+      <%= link_to "View the bug", user_project_bug_path(id: bug.id), class: "btn btn-primary" %>
+    </div>
+  </div>
+</div>

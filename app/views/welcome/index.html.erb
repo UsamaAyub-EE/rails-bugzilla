@@ -1,8 +1,8 @@
-<h1>Welcome to Bugzilla</h1>
-<% if user_signed_in? %>
-  <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
-  <%= link_to "Go to dashboard", users_authenticated_root_path %>
-<% else %>
-  <%= link_to "Sign in", new_user_session_path %>
-  <%= link_to 'Sign up', new_user_registration_path %>
-<% end %>
+<div class="banner text-center">
+  <div class="banner-overlay">
+    <div class="container">
+      <h1 class="text-capitalize">Welcome to Bugzilla</h1>
+      <p>Best platform for handling and maintaining projects and tracking their features and bugs.</p>
+      <a href="<%= new_user_registration_path %>" class="banner-btn">Get Started</a> </div>
+  </div>
+</div>

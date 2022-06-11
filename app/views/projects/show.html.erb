@@ -1,7 +1,7 @@
-<p>Project Name <%= @project.name %></p> <br>
-<p>Owned by: <%= @project.manager.name %></p>
+<h3>Project Name <%= @project.name %></h3>
+<h3>Owned by: <%= @project.manager.name %></h3>
 <% if current_user.manager? %>
-  <table style="width:100%">
+  <table style="width:100%" class="h4">
     <tr>
       <th>Developer ID</th>
       <th>Developer Name</th>
@@ -24,4 +24,7 @@
     <% end %>
   </table>
 <% end %>
-<%= link_to "Back to projects", projects_path %>
+<br>
+<div class="text-center h4">
+  <%= link_to "Back to projects", projects_path %>
+</div>
