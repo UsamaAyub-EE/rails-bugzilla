@@ -1,4 +1,4 @@
 <h1>New Bug</h1>
 <%= render "form", user: @qa, project: @project, bug: @bug %>
 <br>
-<%= link_to 'Back to bugs', user_project_bugs_path %>
+<%= link_to 'Back to bugs', user_project_bugs_path(@qa, @project) %>
