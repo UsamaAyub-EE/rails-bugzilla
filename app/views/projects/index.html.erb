@@ -18,25 +18,18 @@
             <h4>Owned by:  <%= project.manager.name %></h4>
           <% end %>
         </div>
-        <br>
-        <br>
         <% if current_user.developer? %>
           <div class="col-lg-12 col-md-12 col-sm-12 text-center h4">
             <%= link_to "View the bugs in this project", user_project_bugs_path(current_user,project_id: project.id), class: "btn btn-primary" %>
           </div>
-        <% else %>
-          <div class="col-lg-3 col-md-3 col-sm-12 h4 mt-27">
-            <%= link_to "View the bugs in this project", user_project_bugs_path(current_user,project_id: project.id), class: "btn btn-primary" %>
-          </div>
         <% end %>
       <% end %>
-      <br>
       <% if current_user.qa? %>
-        <div class="col-lg-9 col-md-9 col-sm-12 h4">
-          <%= link_to "Add a new bug to this project!", new_user_project_bug_path(current_user,project_id: project.id), class: "btn btn-primary" %>
+        <div class="col-lg-12 col-md-12 col-sm-12 h4">
+          <%= link_to "View the bugs in this project", user_project_bugs_path(current_user,project_id: project.id), class: "btn btn-primary" %>
+          <%= link_to "Add a new bug to this project", new_user_project_bug_path(current_user,project_id: project.id), class: "btn btn-primary" %>
         </div>
       <% end %>
-      <br>
       <% if current_user.manager? %>
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
           <h3>Project Name:  <%= project.name %></h3> <br>
@@ -51,7 +44,11 @@
           <%= button_to "Delete this project",user_project_path(current_user.id, project), method: :delete, class: "btn btn-primary" %>
         </div>
       <% end %>
-      <hr style="height:6px;border-width:0;color:gray;background-color:gray">
+      <div class="container">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <hr style="height:6px;border-width:0;color:gray;background-color:gray">
+        </div>
+      </div>
     <% end %>
   </div>
 <% end %>

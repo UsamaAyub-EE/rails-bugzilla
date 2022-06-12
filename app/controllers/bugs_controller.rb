@@ -35,20 +35,20 @@ class BugsController < ApplicationController
   def pick_developer
     @bug.developer = @developer
     @bug.stature = 'Started' unless @bug.stature == 'Completed' || @bug.stature == 'Resolved'
-    @bug.save(validate: false)
+    @bug.save
     redirect_to user_project_bug_path(@developer, @project, @bug), info: 'Bug was successfully picked up.'
   end
 
   def drop_developer
     @bug.developer = nil
     @bug.stature = 'New' if @bug.stature == 'Started'
-    @bug.save(validate: false)
+    @bug.save
     redirect_to user_project_bug_path(@developer, @project, @bug), info: 'Bug was successfully dropped.'
   end
 
   def mark_as_resolved
     @bug.stature = @bug.kind == 'Feature' ? 'Completed' : 'Resolved'
-    @bug.save(validate: false)
+    @bug.save
     redirect_to user_project_bug_path(@developer, @project, @bug), info: 'Bug was successfully marked as resolved.'
   end
 
