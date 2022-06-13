@@ -26,10 +26,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def edit; end
-
-  def show; end
-
   def update
     if @project.update(project_params)
       redirect_to user_projects_path(current_user), info: 'Project was successfully updated.'
@@ -40,14 +36,12 @@ class ProjectsController < ApplicationController
 
   def add_developer
     @developer = Developer.find(params[:developer_id])
-    authorize @project
     @project.developers << @developer
     redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
   end
 
   def remove_developer
     @developer = Developer.find(params[:developer_id])
-    authorize @project
     @project.developers.delete(@developer)
     redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
   end
