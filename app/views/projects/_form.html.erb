@@ -1,15 +1,5 @@
 <%= form_for [@manager , @project] do |form| %>
-  <% if @project.errors.any? %>
-    <div class="alert alert-danger mt-20 mb-20">
-      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
-
-      <ul>
-        <% @project.errors.full_messages.each do |message| %>
-          <li class="mt-10"><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <%= render 'layouts/errors', object: @project %>
   <div class="form-group">
     <%= form.label :name, style: "display: block" %>
     <%= form.text_field :name, class: "form-control" %>

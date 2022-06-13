@@ -1,0 +1,11 @@
+<% if object.errors.any? %>
+  <div class="alert alert-danger mt-20 mb-20">
+    <h2><%= pluralize(object.errors.count, "error") %> prohibited this resource from being saved:</h2>
+
+    <ul>
+      <% object.errors.full_messages.each do |message| %>
+        <li class="mt-10"><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
