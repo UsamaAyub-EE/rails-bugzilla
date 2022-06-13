@@ -6,6 +6,14 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  validates :type, presence: true
+  validates :name, presence: true, length: { maximum: 50 }
+  validate :valid_type
+
+  def valid_type
+    errors.add(:type, 'must be Manager, Developer, or Qa') unless manager? || developer? || qa?
+  end
+
   def manager?
     type == 'Manager'
   end
