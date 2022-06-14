@@ -12,13 +12,13 @@
         <tr>
           <td><%= developer.id %></td>
           <td><%= developer.name %></td>
-          <td><%= button_to "Remove", remove_developer_project_path(developer_id: developer.id), method: :delete, data: { turbolinks: false } %></td>
+          <td><%= button_to "Remove", project_path(developer_id: developer.id), method: :patch, data: { turbolinks: false } %></td>
         </tr>
       <% else %>
         <tr>
           <td><%= developer.id %></td>
           <td><%= developer.name %></td>
-          <td><%= button_to "Add", add_developer_project_path(developer_id: developer.id), method: :post, data: { turbolinks: false } %></td>
+          <td><%= button_to "Add", project_path(developer_id: developer.id), method: :patch, data: { turbolinks: false } %></td>
         </tr>
       <% end %>
     <% end %>

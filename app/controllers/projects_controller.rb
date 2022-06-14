@@ -4,11 +4,14 @@ class ProjectsController < ApplicationController
   before_action :authenticate_user!
 
   before_action :set_user, only: %i[new create edit update]
-  before_action :set_project, only: %i[edit update destroy add_developer show remove_developer]
-  before_action :set_developers, only: %i[show]
+  before_action :set_project, only: %i[edit update destroy show]
   def index
     @projects = policy_scope(Project)
     authorize @projects
+  end
+
+  def show
+    @developers = Developer.all
   end
 
   def new
@@ -27,23 +30,20 @@ class ProjectsController < ApplicationController
   end
 
   def update
-    if @project.update(project_params)
+    if params.key?(:developer_id)
+      @developer = Developer.find(params[:developer_id])
+      if @project.developers.include?(@developer)
+        @project.developers.delete(@developer)
+        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
+      else
+        @project.developers << @developer
+        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
+      end
+    elsif @project.update(project_params)
       redirect_to user_projects_path(current_user), info: 'Project was successfully updated.'
     else
       render :edit, project: @project, manager: @user
     end
-  end
-
-  def add_developer
-    @developer = Developer.find(params[:developer_id])
-    @project.developers << @developer
-    redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
-  end
-
-  def remove_developer
-    @developer = Developer.find(params[:developer_id])
-    @project.developers.delete(@developer)
-    redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
   end
 
   def destroy
@@ -64,9 +64,5 @@ class ProjectsController < ApplicationController
   def set_project
     @project = Project.find(params[:id])
     authorize @project
-  end
-
-  def set_developers
-    @developers = Developer.all
   end
 end

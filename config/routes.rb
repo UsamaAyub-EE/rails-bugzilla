@@ -11,14 +11,6 @@ Rails.application.routes.draw do
   end
 
   resources :projects do
-    member do
-      post :add_developer
-      put :add_developer
-      delete :remove_developer
-    end
-  end
-
-  resources :projects do
     resources :bugs do
       member do
         patch :pick_developer
