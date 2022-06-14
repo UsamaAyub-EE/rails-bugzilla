@@ -24,19 +24,19 @@ class BugPolicy < ApplicationPolicy
   end
 
   def update?
-    user.qa?
+    user.qa? || user.developer?
   end
 
   def destroy?
-    user.qa?
+    create?
   end
 
   def new?
-    user.qa?
+    create?
   end
 
   def edit?
-    user.qa?
+    create?
   end
 
   def pick_developer?
