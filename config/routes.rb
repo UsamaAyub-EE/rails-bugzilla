@@ -13,11 +13,6 @@ Rails.application.routes.draw do
   resources :projects do
     resources :bugs do
       member do
-        patch :pick_developer
-        put :pick_developer
-        patch :drop_developer
-        put :drop_developer
-        patch :mark_as_resolved
         put :mark_as_resolved
       end
     end

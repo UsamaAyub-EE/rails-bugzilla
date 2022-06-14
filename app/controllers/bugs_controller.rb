@@ -4,8 +4,8 @@ class BugsController < ApplicationController
   before_action :authenticate_user!
 
   before_action :set_project,
-                only: %i[edit update destroy new create index pick_developer drop_developer mark_as_resolved]
-  before_action :set_bug, only: %i[show edit update destroy pick_developer drop_developer mark_as_resolved]
+                only: %i[edit update destroy new create index mark_as_resolved]
+  before_action :set_bug, only: %i[show edit update destroy mark_as_resolved]
   def index
     @bugs = policy_scope(Bug).where(project_id: @project.id)
     authorize @bugs
@@ -30,28 +30,32 @@ class BugsController < ApplicationController
     end
   end
 
-  def pick_developer
-    @bug.developer = @developer
-    @bug.stature = 'Started' unless @bug.stature == 'Completed' || @bug.stature == 'Resolved'
-    @bug.save
-    redirect_to user_project_bug_path(@developer, @project, @bug), info: 'Bug was successfully picked up.'
-  end
-
-  def drop_developer
-    @bug.developer = nil
-    @bug.stature = 'New' if @bug.stature == 'Started'
-    @bug.save
-    redirect_to user_project_bug_path(@developer, @project, @bug), info: 'Bug was successfully dropped.'
-  end
-
   def mark_as_resolved
     @bug.stature = @bug.kind == 'Feature' ? 'Completed' : 'Resolved'
     @bug.save
-    redirect_to user_project_bug_path(@developer, @project, @bug), info: 'Bug was successfully marked as resolved.'
+    redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully marked as resolved.'
   end
 
   def update
-    if @bug.update(bug_params)
+    if current_user.developer?
+      if @bug.developer.nil?
+        @bug.developer = current_user
+        @bug.stature = 'Started' unless @bug.stature == 'Completed' || @bug.stature == 'Resolved'
+        if @bug.save(validate: false)
+          redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully picked up.'
+        else
+          redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not picked up.'
+        end
+      else
+        @bug.developer = nil
+        @bug.stature = 'New' if @bug.stature == 'Started'
+        if @bug.save(validate: false)
+          redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully dropped.'
+        else
+          redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not dropped.'
+        end
+      end
+    elsif @bug.update(bug_params)
       redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully updated.'
     else
       render :edit, bug: @bug, project: @project

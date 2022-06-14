@@ -23,7 +23,7 @@
 <% end %>
 <% if current_user.developer? %>
   <% if @bug.developer.nil? %>
-    <%= link_to "Pick up this bug", pick_developer_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
+    <%= link_to "Pick up this bug", project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
   <% elsif @bug.developer.id == current_user.id %>
     <% if @bug.kind == 'Bug' %>
       <% if @bug.stature == 'Resolved' %>
@@ -31,14 +31,14 @@
       <% else %>
         <%= link_to "Mark this bug as resolved", mark_as_resolved_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
       <% end %>
-      <%= link_to "Drop this bug", drop_developer_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
+      <%= link_to "Drop this bug", project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
     <% else %>
       <% if @bug.stature == 'Completed' %>
         <p>This feature has been completed</p> <br>
       <% else %>
         <%= link_to "Mark this feature as completed", mark_as_resolved_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
       <% end %>
-      <%= link_to "Drop this feature", drop_developer_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
+      <%= link_to "Drop this feature", project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
     <% end %>
   <% end %>
 <% elsif current_user.qa? %>
