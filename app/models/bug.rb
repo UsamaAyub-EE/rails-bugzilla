@@ -8,7 +8,7 @@ class Bug < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :kind, :stature, presence: true
-  validate :unique_title_per_project, on: :create
+  validates :title, uniqueness: { scope: :project_id }, on: :create
 
   validate :acceptable_screenshot
 
@@ -24,9 +24,5 @@ class Bug < ApplicationRecord
       errors.add(:screenshot, 'must be a GIF or PNG') unless acceptable_types.include?(screenshot.content_type)
       errors.add(:screenshot, 'is too big') unless screenshot.byte_size <= 5.megabyte
     end
-  end
-
-  def unique_title_per_project
-    errors.add(:title, 'must be unique per project') if Bug.where(title: title, project_id: project_id).exists?
   end
 end
