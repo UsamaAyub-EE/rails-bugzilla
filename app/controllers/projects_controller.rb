@@ -3,7 +3,6 @@
 class ProjectsController < ApplicationController
   before_action :authenticate_user!
 
-  before_action :set_user, only: %i[new create edit update]
   before_action :set_project, only: %i[edit update destroy show]
   def index
     @projects = policy_scope(Project)
@@ -15,17 +14,17 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @project = @user.projects.new
+    @project = current_user.projects.new
     authorize @project
   end
 
   def create
-    @project = @user.projects.new(project_params)
+    @project = current_user.projects.new(project_params)
     authorize @project
     if @project.save
       redirect_to user_projects_path(current_user), info: 'Project was Created Successfully!'
     else
-      render :new, project: @project, manager: @user
+      render :new, project: @project, manager: current_user
     end
   end
 
@@ -42,7 +41,7 @@ class ProjectsController < ApplicationController
     elsif @project.update(project_params)
       redirect_to user_projects_path(current_user), info: 'Project was successfully updated.'
     else
-      render :edit, project: @project, manager: @user
+      render :edit, project: @project, manager: current_user
     end
   end
 
@@ -55,10 +54,6 @@ class ProjectsController < ApplicationController
 
   def project_params
     params.require(:project).permit(:name, :user_id)
-  end
-
-  def set_user
-    @user = current_user
   end
 
   def set_project
