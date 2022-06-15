@@ -13,8 +13,6 @@ class BugsController < ApplicationController
 
   def new
     @bug = current_user.bugs.new
-    @bug.project_id = @project.id
-    @bug.qa_id = current_user.id
     authorize @bug
   end
 
