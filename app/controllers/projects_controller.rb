@@ -46,8 +46,11 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    @project.destroy
-    redirect_to user_projects_path(current_user), info: 'Project was successfully destroyed.'
+    if @project.destroy
+      redirect_to user_projects_path(current_user), info: 'Project was successfully destroyed.'
+    else
+      redirect_to user_projects_path(current_user), danger: 'Project was not destroyed.'
+    end
   end
 
   private

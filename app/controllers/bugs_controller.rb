@@ -62,8 +62,11 @@ class BugsController < ApplicationController
   end
 
   def destroy
-    @bug.destroy
-    redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully destroyed.'
+    if @bug.destroy
+      redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully destroyed.'
+    else
+      redirect_to user_project_bugs_path(current_user, @project), danger: 'Bug was not destroyed.'
+    end
   end
 
   private
