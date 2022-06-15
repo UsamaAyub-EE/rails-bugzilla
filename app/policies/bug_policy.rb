@@ -13,7 +13,7 @@ class BugPolicy < ApplicationPolicy
 
   def show?
     if user.developer?
-      user.projects.pluck(:id).include?(record.project_id)
+      Developer.includes(:projects).where("projects.id = ?" ,record.project_id).references(:projects).where("Developer_id = ? ",user.id).exists?
     elsif user.qa?
       true
     end
@@ -24,7 +24,7 @@ class BugPolicy < ApplicationPolicy
   end
 
   def update?
-    user.qa? || (user.developer? && show?)
+    show?
   end
 
   def destroy?
@@ -39,15 +39,7 @@ class BugPolicy < ApplicationPolicy
     create?
   end
 
-  def pick_developer?
-    show?
-  end
-
-  def drop_developer?
-    show?
-  end
-
   def mark_as_resolved?
-    show?
+    show? && user.developer?
   end
 end

@@ -1,0 +1,4 @@
+{
+  "solargraph.commandPath": "/home/dev/.rbenv/shims/solargraph",
+  "solargraph.useBundler": false
+}

@@ -45,23 +45,7 @@ class ProjectPolicy < ApplicationPolicy
     update?
   end
 
-  def add_developer?
-    update?
-  end
-
-  def remove_developer?
-    update?
-  end
-
   def mark_as_resolved?
     show? && @user.developer?
-  end
-
-  def pick_developer?
-    mark_as_resolved?
-  end
-
-  def drop_developer?
-    mark_as_resolved?
   end
 end
