@@ -29,25 +29,26 @@ class BugsController < ApplicationController
   end
 
   def mark_as_resolved
-    @bug.stature = @bug.kind == 'Feature' ? 'Completed' : 'Resolved'
-    @bug.save
-    redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully marked as resolved.'
+    updated_status = @bug.kind == 'Feature' ? 'Completed' : 'Resolved'
+    if @bug.update(stature: updated_status)
+      redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully marked as resolved.'
+    else
+      redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not marked as resolved.'
+    end
   end
 
   def update
     if current_user.developer?
       if @bug.developer.nil?
-        @bug.developer = current_user
-        @bug.stature = 'Started' unless @bug.stature == 'Completed' || @bug.stature == 'Resolved'
-        if @bug.save(validate: false)
+        updated_status = 'Started' unless @bug.stature == 'Completed' || @bug.stature == 'Resolved'
+        if @bug.update(developer_id: current_user.id, stature: updated_status)
           redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully picked up.'
         else
           redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not picked up.'
         end
       else
-        @bug.developer = nil
-        @bug.stature = 'New' if @bug.stature == 'Started'
-        if @bug.save(validate: false)
+        updated_status = 'New' if @bug.stature == 'Started'
+        if @bug.update(developer_id: nil, stature: updated_status)
           redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully dropped.'
         else
           redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not dropped.'
