@@ -4,10 +4,10 @@ class ApplicationController < ActionController::Base
   include Pundit
 
   rescue_from ActiveRecord::RecordNotFound do
-    render 'public/404', status: 404
+    render file: 'public/404.html', status: :not_found
   end
   rescue_from Pundit::NotAuthorizedError do
-    render 'public/403', status: 403
+    render file: 'public/403.html', status: :forbidden
   end
 
   add_flash_types :danger, :info, :warning, :success, :messages
