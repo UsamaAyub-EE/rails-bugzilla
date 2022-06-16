@@ -21,28 +21,22 @@ class ProjectsController < ApplicationController
   def create
     @project = current_user.projects.new(project_params)
     authorize @project
-    if @project.save
-      redirect_to user_projects_path(current_user), info: 'Project was Created Successfully!'
-    else
-      render :new, project: @project, manager: current_user
-    end
+    render :new, project: @project, manager: current_user and return unless @project.save
+
+    redirect_to user_projects_path(current_user), info: 'Project was successfully created.'
   end
 
   def update
-    if params.key?(:developer_id)
-      assignment = Assignment.where("project_id = ? AND developer_id = ?", @project.id, params[:developer_id])
+    if params[:developer_id].present?
+      assignment = Assignment.where('project_id = ? AND developer_id = ?', @project.id, params[:developer_id])
       if assignment.exists?
-        if assignment.destroy_all
-          redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
-        else
-          redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.'
-        end
+        redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.' and return unless assignment.destroy_all
+
+        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
       else
-        if Assignment.new(project_id: @project.id, developer_id: params[:developer_id]).save
-          redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
-        else
-          redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.'
-        end
+        redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.' and return unless Assignment.new(project_id: @project.id, developer_id: params[:developer_id]).save
+
+        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
       end
     elsif @project.update(project_params)
       redirect_to user_projects_path(current_user), info: 'Project was successfully updated.'
@@ -52,11 +46,9 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    if @project.destroy
-      redirect_to user_projects_path(current_user), info: 'Project was successfully destroyed.'
-    else
-      redirect_to user_projects_path(current_user), danger: 'Project was not destroyed.'
-    end
+    redirect_to user_projects_path(current_user), danger: 'Project was not destroyed.' and return unless @project.destroy
+
+    redirect_to user_projects_path(current_user), info: 'Project was successfully destroyed.'
   end
 
   private
