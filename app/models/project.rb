@@ -6,5 +6,6 @@ class Project < ApplicationRecord
 
   belongs_to :manager
   has_many :bugs, dependent: :destroy
-  has_and_belongs_to_many :developers
+  has_many :assignments, :class_name => 'Assignment'
+  has_many :developers, through: :assignments
 end

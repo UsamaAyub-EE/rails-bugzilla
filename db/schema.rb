@@ -36,6 +36,15 @@ ActiveRecord::Schema.define(version: 2022_06_15_151534) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "assignments", force: :cascade do |t|
+    t.bigint "developer_id"
+    t.bigint "project_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["developer_id"], name: "index_assignments_on_developer_id"
+    t.index ["project_id"], name: "index_assignments_on_project_id"
+  end
+
   create_table "bugs", force: :cascade do |t|
     t.string "title"
     t.datetime "deadline"
@@ -59,15 +68,6 @@ ActiveRecord::Schema.define(version: 2022_06_15_151534) do
     t.datetime "updated_at", null: false
     t.index ["manager_id"], name: "index_projects_on_manager_id"
     t.index ["name"], name: "index_projects_on_name", unique: true
-  end
-
-  create_table "projects_users", id: false, force: :cascade do |t|
-    t.bigint "developer_id"
-    t.bigint "project_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["developer_id"], name: "index_projects_users_on_developer_id"
-    t.index ["project_id"], name: "index_projects_users_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|

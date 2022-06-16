@@ -8,7 +8,7 @@ class CreateDevelopersProjects < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-    create_table :projects_users, id: false do |t|
+    create_table :assignments do |t|
       t.belongs_to :developer, index: true
       t.belongs_to :project, index: true
 
