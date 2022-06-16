@@ -8,7 +8,7 @@
       <th>Action</th>
     </tr>
     <% @developers.each do |developer| %>
-      <% if developer.projects.where(id: @project.id).exists? %>
+      <% if assigned?(@project, developer) %>
         <tr>
           <td><%= developer.id %></td>
           <td><%= developer.name %></td>

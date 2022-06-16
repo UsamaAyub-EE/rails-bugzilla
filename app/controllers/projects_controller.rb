@@ -30,13 +30,19 @@ class ProjectsController < ApplicationController
 
   def update
     if params.key?(:developer_id)
-      @developer = Developer.find(params[:developer_id])
-      if @project.developers.include?(@developer)
-        @project.developers.delete(@developer)
-        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
+      assignment = Assignment.where("project_id = ? AND developer_id = ?", @project.id, params[:developer_id])
+      if assignment.exists?
+        if assignment.destroy_all
+          redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
+        else
+          redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.'
+        end
       else
-        @project.developers << @developer
-        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
+        if Assignment.new(project_id: @project.id, developer_id: params[:developer_id]).save
+          redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
+        else
+          redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.'
+        end
       end
     elsif @project.update(project_params)
       redirect_to user_projects_path(current_user), info: 'Project was successfully updated.'

@@ -8,4 +8,8 @@ module ApplicationHelper
       ''
     end
   end
+
+  def assigned?(project, developer)
+    Assignment.where(project_id: project.id, developer_id: developer.id).exists?
+  end
 end
