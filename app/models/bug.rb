@@ -8,7 +8,7 @@ class Bug < ApplicationRecord
 
   validates :title, presence: true, length: { maximum: 50 }
   validates :kind, :stature, presence: true
-  validates :title, uniqueness: { scope: :project_id }, on: :create
+  validates :title, uniqueness: { scope: :project_id }
 
   validate :acceptable_screenshot
 
