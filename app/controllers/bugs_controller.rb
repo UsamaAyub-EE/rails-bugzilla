@@ -39,15 +39,15 @@ class BugsController < ApplicationController
 
   def update
     if current_user.developer?
-      if @bug.developer.nil?
-        updated_status = 'Started' unless @bug.stature == 'Completed' || @bug.stature == 'Resolved'
+      if @bug.developer_id.nil?
+        updated_status = @bug.stature == 'Completed' || @bug.stature == 'Resolved' ? @bug.stature : 'Started'
         if @bug.update(developer_id: current_user.id, stature: updated_status)
           redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully picked up.'
         else
           redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not picked up.'
         end
       else
-        updated_status = 'New' if @bug.stature == 'Started'
+        updated_status = @bug.stature == 'Started' ? 'New' : @bug.stature
         if @bug.update(developer_id: nil, stature: updated_status)
           redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully dropped.'
         else
