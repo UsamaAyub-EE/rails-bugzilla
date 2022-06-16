@@ -45,6 +45,10 @@ class ProjectPolicy < ApplicationPolicy
     update?
   end
 
+  def project_assignment?
+    update?
+  end
+
   def mark_as_resolved?
     show? && @user.developer?
   end

@@ -11,6 +11,12 @@ Rails.application.routes.draw do
   end
 
   resources :projects do
+    member do
+      put :project_assignment
+    end
+  end
+
+  resources :projects do
     resources :bugs do
       member do
         put :mark_as_resolved
