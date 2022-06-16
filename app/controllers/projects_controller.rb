@@ -30,13 +30,17 @@ class ProjectsController < ApplicationController
     if params[:developer_id].present?
       assignment = Assignment.where('project_id = ? AND developer_id = ?', @project.id, params[:developer_id])
       if assignment.exists?
-        redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.' and return unless assignment.destroy_all
-
-        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
+        if assignment.destroy_all
+          redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
+        else
+          redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.'
+        end
       else
-        redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.' and return unless Assignment.new(project_id: @project.id, developer_id: params[:developer_id]).save
-
-        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
+        if Assignment.new(project_id: @project.id, developer_id: params[:developer_id]).save
+          redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
+        else
+          redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.'
+        end
       end
     elsif @project.update(project_params)
       redirect_to user_projects_path(current_user), info: 'Project was successfully updated.'
@@ -46,9 +50,11 @@ class ProjectsController < ApplicationController
   end
 
   def destroy
-    redirect_to user_projects_path(current_user), danger: 'Project was not destroyed.' and return unless @project.destroy
-
-    redirect_to user_projects_path(current_user), info: 'Project was successfully destroyed.'
+    if @project.destroy
+      redirect_to user_projects_path(current_user), info: 'Project was successfully destroyed.'
+    else
+      redirect_to user_projects_path(current_user), danger: 'Project was not destroyed.'
+    end
   end
 
   private

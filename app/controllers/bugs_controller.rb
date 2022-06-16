@@ -21,11 +21,9 @@ class BugsController < ApplicationController
     @bug.project_id = @project.id
     @bug.qa_id = current_user.id
     authorize @bug
-    if @bug.save
-      redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully created.'
-    else
-      render :new, bug: @bug, project: @project
-    end
+    render :new, bug: @bug, project: @project and return unless @bug.save
+
+    redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully created.'
   end
 
   def mark_as_resolved
