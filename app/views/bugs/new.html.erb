@@ -1,4 +1,6 @@
 <h1>New Bug</h1>
-<%= render "form", user: current_user, project: @project, bug: @bug %>
+<%= form_for @bug, :url => user_project_bugs_path do |form| %>
+  <%= render partial: 'form', locals: {form: form} %>
+<% end %>
 <br>
 <%= link_to 'Back to bugs', user_project_bugs_path(current_user, @project) %>

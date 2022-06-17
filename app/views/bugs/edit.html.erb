@@ -1,4 +1,5 @@
 <h1>Edit bug</h1>
 
-<%= render "form", user: current_user, project: @project, bug: @bug %>
-
+<%= form_for @bug, :url => user_project_bug_path do |form| %>
+  <%= render partial: 'form', locals: {form: form} %>
+<% end %>

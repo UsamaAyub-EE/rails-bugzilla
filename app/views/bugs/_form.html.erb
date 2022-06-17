@@ -1,7 +1,6 @@
-<%= form_for [@user , @project, @bug] do |form| %>
   <%= render 'layouts/errors', object: @bug %>
 
-  <div class="form-group">
+  <div cla  ss="form-group">
     <%= form.label :title, style: "display: block" %>
     <%= form.text_field :title, class: "form-control" %>
   </div>
@@ -32,4 +31,3 @@
 
     <%= form.submit class: "btn btn-primary" %>
   </div>
-<% end %>
