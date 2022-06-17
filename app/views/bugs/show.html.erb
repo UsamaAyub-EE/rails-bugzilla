@@ -22,9 +22,9 @@
   </div>
 <% end %>
 <% if current_user.developer? %>
-  <% if @bug.developer.nil? %>
+  <% if @bug.developer_id.nil? %>
     <%= link_to "Pick up this bug", user_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
-  <% elsif @bug.developer.id == current_user.id %>
+  <% elsif @bug.developer_id == current_user.id %>
     <% if @bug.kind == 'Bug' %>
       <% if @bug.stature == 'Resolved' %>
         <p>This bug has been resolved</p> <br>
