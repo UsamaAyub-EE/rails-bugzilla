@@ -6,12 +6,14 @@ class Bug < ApplicationRecord
   belongs_to :project
   has_one_attached :screenshot
 
+  scope :unassigned, -> { where(developer_id: nil) }
+  scope :picked, ->(dev_id) { where(developer_id: dev_id) }
+
   validates :title, presence: true, length: { maximum: 50 }
   validates :kind, :stature, presence: true
   validates :title, uniqueness: { scope: :project_id }
 
   validate :acceptable_screenshot
-
   validate :future_deadline
 
   def future_deadline

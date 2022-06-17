@@ -9,11 +9,7 @@
             <h3>Your Bugs</h3>
             <span class="section-title-line mt-20 mb-20"></span>
           </div>
-            <% for bug in @bugs do %>
-              <% if !(bug.developer.nil?) && (bug.developer.id == current_user.id) %>
-                <%= render bug %>
-              <% end %>
-            <% end %>
+            <%= render @bugs.picked(current_user.id) %>
         </div>
       </div>
     </div>
@@ -24,11 +20,7 @@
             <h3>Unassigned Bugs In This Project</h3>
             <span class="section-title-line mt-20 mb-20"></span>
           </div>
-          <% for bug in @bugs do %>
-            <% if bug.developer.nil? %>
-              <%= render bug %>
-            <% end %>
-          <% end %>
+          <%= render @bugs.unassigned %>
         </div>
       </div>
     </div>
