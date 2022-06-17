@@ -38,8 +38,4 @@ class BugPolicy < ApplicationPolicy
   def edit?
     create?
   end
-
-  def mark_as_resolved?
-    show? && user.developer?
-  end
 end
