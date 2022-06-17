@@ -26,18 +26,15 @@ class BugsController < ApplicationController
     redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully created.'
   end
 
-  def mark_as_resolved
-    updated_status = @bug.kind == 'Feature' ? 'Completed' : 'Resolved'
-    if @bug.update(stature: updated_status)
-      redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully marked as resolved.'
-    else
-      redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not marked as resolved.'
-    end
-  end
-
   def update
     if current_user.developer?
-      if @bug.developer_id.nil?
+      if params[:status].present?
+        if @bug.update(stature: params[:status])
+          redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully marked as resolved.'
+        else
+          redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not marked as resolved.'
+        end
+      elsif @bug.developer_id.nil?
         if @bug.update(developer_id: current_user.id)
           redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully picked up.'
         else

@@ -29,14 +29,14 @@
       <% if @bug.stature == 'Resolved' %>
         <p>This bug has been resolved</p> <br>
       <% else %>
-        <%= link_to "Mark this bug as resolved", mark_as_resolved_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
+        <%= link_to "Mark this bug as resolved", project_bug_path(project_id: @bug.project_id, id: @bug.id, status: 'Resolved'), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
       <% end %>
       <%= link_to "Drop this bug", project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
     <% else %>
       <% if @bug.stature == 'Completed' %>
         <p>This feature has been completed</p> <br>
       <% else %>
-        <%= link_to "Mark this feature as completed", mark_as_resolved_project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :put, data: { turbolinks: false }, class: "btn btn-primary" %>
+        <%= link_to "Mark this feature as completed", project_bug_path(project_id: @bug.project_id, id: @bug.id, status: 'Completed'), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
       <% end %>
       <%= link_to "Drop this feature", project_bug_path(project_id: @bug.project_id, id: @bug.id), method: :patch, data: { turbolinks: false }, class: "btn btn-primary" %>
     <% end %>
