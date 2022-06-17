@@ -25,4 +25,14 @@ class Bug < ApplicationRecord
       errors.add(:screenshot, 'is too big') unless screenshot.byte_size <= 5.megabyte
     end
   end
+
+  before_update :update_status
+
+  def update_status
+    if self.developer_id.nil?
+      self.stature = stature == 'Started' ? 'New' : stature
+    else
+      self.stature = (stature == 'Completed' || stature == 'Resolved') ? stature : 'Started'
+    end
+  end
 end
