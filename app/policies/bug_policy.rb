@@ -13,7 +13,7 @@ class BugPolicy < ApplicationPolicy
 
   def show?
     if user.developer?
-      Developer.includes(:projects).where("projects.id = ?" ,record.project_id).references(:projects).where("Developer_id = ? ",user.id).exists?
+      Developer.dev_project?(record.project_id, user.id)
     elsif user.qa?
       true
     end
