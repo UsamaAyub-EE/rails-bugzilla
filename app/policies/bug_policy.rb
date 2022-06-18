@@ -38,4 +38,8 @@ class BugPolicy < ApplicationPolicy
   def edit?
     create?
   end
+
+  def bug_assignment?
+    user.developer?
+  end
 end

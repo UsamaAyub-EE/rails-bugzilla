@@ -27,18 +27,18 @@ class ProjectsController < ApplicationController
   end
 
   def project_assignment
-    assignment = Assignment.where('project_id = ? AND developer_id = ?', @project.id, params[:developer_id])
-    if assignment.exists?
+    assignment = Assignment.find_or_initialize_by(project_id: @project.id, developer_id: params[:developer_id])
+    if assignment.new_record?
+      if assignment.save
+        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
+      else
+        redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.'
+      end
+    else
       if assignment.destroy_all
         redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
       else
         redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.'
-      end
-    else
-      if Assignment.find_or_initialize_by(project_id: @project.id, developer_id: params[:developer_id]).save
-        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully added.'
-      else
-        redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.'
       end
     end
   end
