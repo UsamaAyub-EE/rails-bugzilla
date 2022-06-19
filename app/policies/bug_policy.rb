@@ -13,7 +13,7 @@ class BugPolicy < ApplicationPolicy
 
   def show?
     if user.developer?
-      Developer.dev_project?(record.project_id, user.id)
+      Assignment.where(developer_id: user.id, project_id: record.project_id).any?
     elsif user.qa?
       true
     end
