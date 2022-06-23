@@ -11,6 +11,12 @@ RSpec.describe Bug, type: :model do
                         project_id: pr.id,
                         qa_id: qa.id)
   }
+
+  describe "Associations" do
+    it { should belong_to(:qa).without_validating_presence }
+    it { should belong_to(:project).without_validating_presence }
+  end
+
   it "is valid with valid attributes" do
     expect(subject).to be_valid
   end
