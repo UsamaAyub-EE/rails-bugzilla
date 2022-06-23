@@ -5,6 +5,10 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
+group :development, :test do
+  gem 'rspec-rails', '~> 5.0.0'
+end
+
 gem 'activestorage-cloudinary-service'
 gem 'cloudinary', require: true
 

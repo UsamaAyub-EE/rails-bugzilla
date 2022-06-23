@@ -15,6 +15,8 @@ class Bug < ApplicationRecord
 
   validate :acceptable_screenshot
   validate :future_deadline
+  validate :valid_kind
+  validate :valid_stature
 
   def future_deadline
     errors.add(:deadline, 'must be in the future') if deadline && deadline < Time.now
@@ -25,6 +27,18 @@ class Bug < ApplicationRecord
       acceptable_types = ['image/gif', 'image/png']
       errors.add(:screenshot, 'must be a GIF or PNG') unless acceptable_types.include?(screenshot.content_type)
       errors.add(:screenshot, 'is too big') unless screenshot.byte_size <= 5.megabyte
+    end
+  end
+
+  def valid_kind
+    errors.add(:kind, 'must be Bug or Feature') unless %w[Feature Bug].include?(kind)
+  end
+
+  def valid_stature
+    if kind == 'Bug' && !%w[New Started Resoled].include?(stature)
+      errors.add(:stature, 'must be New, Started or Resoled')
+    elsif kind == 'Feature' && !%w[New Started Completed].include?(stature)
+      errors.add(:stature, 'must be New, Started or Completed')
     end
   end
 
