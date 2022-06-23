@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Bug, type: :model do
-  qa = Qa.create(email: 'QAexam@example.com', password: 'password', password_confirmation: 'password', name: 'ExampleQaexam')
-  mn = Manager.create(email: 'managerexam@example.com', password: 'password', password_confirmation: 'password', name: 'ExampleManagerexam')
-  pr = mn.projects.create(name: "Rspec")
+  qa = Qa.first
+  pr = Project.first
   subject {
     described_class.new(title: "Valid Bug",
                         description: "Lorem ipsum",
@@ -26,7 +25,7 @@ RSpec.describe Bug, type: :model do
     expect(subject).to_not be_valid
   end
 
-  it "is not valied without type" do
+  it "is not valid without type" do
     subject.kind = nil
     expect(subject).to_not be_valid
   end
