@@ -7,9 +7,13 @@ ruby '2.7.2'
 
 group :development, :test do
   gem 'rspec-rails', '~> 5.0.0'
+  gem 'shoulda-matchers'
 end
 
+gem 'factory_bot'
+
 gem 'activestorage-cloudinary-service'
+
 gem 'cloudinary', require: true
 
 gem 'image_processing'

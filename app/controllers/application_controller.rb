@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  include Pundit
+  include Pundit::Authorization
 
   rescue_from ActiveRecord::RecordNotFound do
     render file: 'public/404.html', status: :not_found
