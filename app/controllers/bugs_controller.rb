@@ -12,15 +12,15 @@ class BugsController < ApplicationController
   end
 
   def new
-    @bug = current_user.bugs.new
+    @bug = Bug.new
     authorize @bug
   end
 
   def create
     @bug = Bug.new(bug_params)
+    authorize @bug
     @bug.project_id = @project.id
     @bug.qa_id = current_user.id
-    authorize @bug
     render :new, bug: @bug, project: @project and return unless @bug.save
 
     redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully created.'
