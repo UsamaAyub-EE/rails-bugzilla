@@ -14,13 +14,14 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    @project = current_user.projects.new
+    @project = Project.new
     authorize @project
   end
 
   def create
-    @project = current_user.projects.new(project_params)
+    @project = Project.new(project_params)
     authorize @project
+    @project.manager_id = current_user.id
     render :new, project: @project, manager: current_user and return unless @project.save
 
     redirect_to user_projects_path(current_user), info: 'Project was successfully created.'
