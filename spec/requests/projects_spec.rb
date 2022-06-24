@@ -142,6 +142,26 @@ RSpec.describe 'Projects', type: :request do
     end
   end
 
+  describe 'PUT /project_assignment' do
+    it 'project assignment works for Manager!' do
+      sign_in manager
+      put project_assignment_project_path(id: project.id), params: { developer_id: developer.id }
+      expect(response).to have_http_status(:redirect)
+    end
+
+    it 'project assignment does not work for Developer!' do
+      sign_in developer
+      put project_assignment_project_path(id: project.id), params: { developer_id: developer.id }
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'project assignment does not work for QA!' do
+      sign_in qa
+      put project_assignment_project_path(id: project.id), params: { developer_id: developer.id }
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
   describe 'DELETE /destroy' do
     it 'project destroy works for Manager!' do
       sign_in manager
