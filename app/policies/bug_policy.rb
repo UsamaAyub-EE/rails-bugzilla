@@ -40,6 +40,6 @@ class BugPolicy < ApplicationPolicy
   end
 
   def bug_assignment?
-    user.developer?
+    show? && user.developer?
   end
 end

@@ -141,6 +141,33 @@ RSpec.describe 'Bugs', type: :request do
     end
   end
 
+  describe 'PUT /bug_assignment' do
+    it 'bug assignment does not work for Manager!' do
+      sign_in manager
+      put bug_assignment_project_bug_path(project_id: project.id, id: bug.id)
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'bug assignment works for Developer if he is in project!' do
+      sign_in developer
+      developer.projects << project
+      put bug_assignment_project_bug_path(project_id: project.id, id: bug.id)
+      expect(response).to have_http_status(:redirect)
+    end
+
+    it 'bug assignment does not work for Developer if he is not in project!' do
+      sign_in developer
+      put bug_assignment_project_bug_path(project_id: project.id, id: bug.id)
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it 'bug assignment does not work for QA!' do
+      sign_in qa
+      put bug_assignment_project_bug_path(project_id: project.id, id: bug.id)
+      expect(response).to have_http_status(:forbidden)
+    end
+  end
+
   describe 'DELETE /destroy' do
     it 'bug destroy does not work for Manager!' do
       sign_in manager
