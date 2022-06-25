@@ -2,7 +2,7 @@
 
 * Ruby version : 2.7.2
 
-* System dependencies : I have used ActiveStorage for file uploads and the uploaded files are stored locally.
+* System dependencies : I have used ActiveStorage for file uploads and the uploaded files are stored on Cloudinary
 
 * Database creation : I have used PostgreSQL for the project. Run 'rails db:setup' to setup the database.
 
