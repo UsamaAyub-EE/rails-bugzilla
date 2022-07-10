@@ -74,3 +74,11 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'devise', '~> 4.8'
 gem 'pundit'
+
+gem "rubocop", "~> 1.31"
+
+gem "rubocop-performance", "~> 1.14"
+
+gem "rubocop-rails", "~> 2.15"
+
+gem "rubocop-rspec", "~> 2.12"

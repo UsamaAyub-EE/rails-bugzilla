@@ -33,12 +33,10 @@ class BugsController < ApplicationController
       else
         redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not picked up.'
       end
+    elsif @bug.update(developer_id: nil)
+      redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully dropped.'
     else
-      if @bug.update(developer_id: nil)
-        redirect_to user_project_bug_path(current_user, @project, @bug), info: 'Bug was successfully dropped.'
-      else
-        redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not dropped.'
-      end
+      redirect_to user_project_bug_path(current_user, @project, @bug), danger: 'Bug was not dropped.'
     end
   end
 
