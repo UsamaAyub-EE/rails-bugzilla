@@ -35,12 +35,10 @@ class ProjectsController < ApplicationController
       else
         redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not added.'
       end
+    elsif assignment.destroy
+      redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
     else
-      if assignment.destroy
-        redirect_to user_project_path(current_user, params[:id]), info: 'Developer was successfully removed.'
-      else
-        redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.'
-      end
+      redirect_to user_project_path(current_user, params[:id]), danger: 'Developer was not removed.'
     end
   end
 
