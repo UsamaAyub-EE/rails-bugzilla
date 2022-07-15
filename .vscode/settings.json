@@ -1,4 +1,4 @@
 {
-  "solargraph.commandPath": "/home/dev/.rbenv/shims/solargraph",
+  "solargraph.commandPath": "/home/dev/.rvm/gems/ruby-2.7.2/bin/solargraph",
   "solargraph.useBundler": false
 }
