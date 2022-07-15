@@ -1,8 +1,9 @@
 <% if flash.any? %>
   <% flash.each do |type, msg| %>
     <%# <% binding.pry %>
-    <div class="alert alert-<%= type %>">
-    <%= msg %>
+    <div class="alert alert-<%= type %> alert-dismissible fade in">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <%= msg %>
     </div>
   <% end %>
 <% end %>
