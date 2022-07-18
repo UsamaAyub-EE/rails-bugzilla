@@ -23,7 +23,7 @@ class BugsController < ApplicationController
     @bug.qa_id = current_user.id
     render :new, bug: @bug, project: @project and return unless @bug.save
 
-    redirect_to user_project_bugs_path(current_user, @project), info: 'Bug was successfully created.'
+    redirect_to  user_project_bugs_path(current_user, @project), info: 'Bug was successfully created.'
   end
 
   def bug_assignment
